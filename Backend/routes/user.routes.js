@@ -1,5 +1,5 @@
-import { Router } from "express";
-import { createProfile } from "../controllers/user.controller";
+const { Router } = require("express");
+const { createProfile } = require("../controllers/user.controller");
 
 
 const router = Router();
@@ -7,7 +7,7 @@ const router = Router();
 router.get('/profile',  createProfile);
 
 
-export default router;
+module.exports = router;
 
 
 

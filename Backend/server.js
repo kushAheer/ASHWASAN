@@ -1,6 +1,6 @@
-import express from 'express'
-import authRouter from './routes/auth.routes.js'
-import userRouter from './routes/user.routes.js'
+const express = require('express')
+const authRouter = require('./routes/auth.routes.js')
+const userRouter = require('./routes/user.routes.js')
 const app = express()
 
 

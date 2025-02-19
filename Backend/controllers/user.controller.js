@@ -1,7 +1,7 @@
-import User from '../models/user.model';
-import Profile from '../models/profile.model';
+const User =  require('../models/user.model');
+const Profile = require('../models/profile.model');
 
-export const createProfile = async (req, res) => {
+module.exports.createProfile = async (req, res) => {
     try {
         
         const {
