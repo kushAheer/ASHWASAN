@@ -3,7 +3,7 @@ import User from '../Models/UserModel.js';
 
 const Authentication = async (req, res, next) => {
     try{
-        const token = req.cookies.token;
+        const token =  req.headers.authorization.split(" ")[1];
         if(!token){
             return res.status(401).json({status : "401" ,message: "Unauthorized", success: false});
         }
@@ -13,7 +13,7 @@ const Authentication = async (req, res, next) => {
             return res.status(401).json({message: "Unauthorized", success: false ,status : "401"});
         }
 
-        const user = await User.findById(verified.id).select("-Password");
+        const user = await User.findById(verified.id).select("-password");
         if(!user){
             return res.status(404).json({message: "User Not Found", success: false});
         }
