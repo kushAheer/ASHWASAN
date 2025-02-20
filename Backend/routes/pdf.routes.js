@@ -92,7 +92,7 @@ Date: ___________________         Date: ___________________         Date: ______
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-const REDIRECT_URL = 'https://developers.google.com/oauthplayground';
+const REDIRECT_URL = process.env.REDIRECT_URL;
 
 const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
