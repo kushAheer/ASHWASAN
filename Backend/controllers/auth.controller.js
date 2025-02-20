@@ -16,51 +16,51 @@ const generateToken = (id) => {
 module.exports.register = async (req, res) => {
     try{
 
-        const {userName  , Email , Password} = req.body;
-
+        const {username  , email , password} = req.body;
+        console.log(req.body)
         
-        if(Email === undefined || Password === undefined || userName === undefined){
+        if(email === undefined || password === undefined || username === undefined){
             return res.status(400).json({
                 message : "Please fill all the fields"
             });
         }
         
-        if(Password.length <= 6){
+        if(password.length <= 6){
             return res.status(400).json({
-                message : "Password should be atleast 6 characters long"
+                message : "password should be atleast 6 characters long"
             })
         }
         
-        if(!Email.includes("@") || !Email.includes(".")){
+        if(!email.includes("@") || !email.includes(".")){
             return res.status(400).json({
-                message : "Invalid Email"
+                message : "Invalid email"
             })
         }
         
-        if(userName > 30){
+        if(username > 30){
             return res.status(400).json({
-                message : "Username should be less than 30 characters"
+                message : "username should be less than 30 characters"
             })
         }
         
-        const user = await User.findOne({Email , userName});
+        const user = await User.findOne({email , username});
         
         if(user){
             
             return res.status(409).json({
                 
-                message : "User or Email already exists"
+                message : "User or email already exists"
             })
         }
         
         //hashing the password
         
-        const hashPassword = await bcrypt.hash(Password,10);
+        const hashpassword = await bcrypt.hash(password,10);
             
         const userData = await User.create({
-            username :userName,
-            email : Email,
-            password : hashPassword,
+            username :username,
+            email : email,
+            password : hashpassword,
             
             
         });
@@ -71,7 +71,7 @@ module.exports.register = async (req, res) => {
             })
         }
         
-        const token = userData.generateToken(userData._id);
+        const token = generateToken(userData._id);
         userData.token = token;
         await userData.save();
         
@@ -92,29 +92,29 @@ module.exports.register = async (req, res) => {
 module.exports.login = async (req, res) => {
     try {
         
-        const {userName, Password} = req.body;
+        const {username, password} = req.body;
 
-        if(userName === undefined || Password === undefined){
+        if(username === undefined || password === undefined){
             return res.status(400).json({
                 message : "Please fill all the fields"
             });
         }
-        const user = await User.findOne({username : userName});
+        const user = await User.findOne({username : username});
 
         if(!user){
             return res.status(404).json({
-                message : "Invalid Username"
+                message : "Invalid username"
             })
         }
         
-        const isPasswordCorrect = await bcrypt.compare(Password,user.Password);
+        const ispasswordCorrect = await bcrypt.compare(password,user.password);
 
-        if(!isPasswordCorrect){
+        if(!ispasswordCorrect){
             return res.status(400).json({
-                message : "Invalid Password"
+                message : "Invalid password"
             })
         }
-        const token = await user.generateToken();
+        const token = generateToken(user._id);
 
         user.token = token;
 
@@ -126,7 +126,7 @@ module.exports.login = async (req, res) => {
             userData : {
                 _id : user._id,
 
-                userName : user.username,
+                username : user.username,
                 Email : user.email,
 
                 token : user.token,

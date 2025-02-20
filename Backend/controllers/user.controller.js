@@ -91,3 +91,13 @@ module.exports.createProfile = async (req, res) => {
 
     }
 }
+
+module.exports.getusernames = async (req,res) => {
+    let response = await User.find({});
+    console.log("hello")
+    if(!response){
+        res.send("error")
+    }
+
+    console.log(response)
+}
