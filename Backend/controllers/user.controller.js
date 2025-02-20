@@ -1,6 +1,26 @@
 const User =  require('../models/user.model');
 const Profile = require('../models/profile.model');
 
+const generateaashwasanId = () => {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const digits = '0123456789';
+
+    const getRandomLetter = () => letters[Math.floor(Math.random() * letters.length)];
+    const getRandomDigit = () => digits[Math.floor(Math.random() * digits.length)];
+
+    let middlePart = '';
+
+    for (let i = 0; i < 12; i++) {
+        if (i === 4 || i === 11) { // Ensure 5th and 12th positions are digits
+            middlePart += getRandomDigit();
+        } else {
+            middlePart += Math.random() < 0.5 ? getRandomLetter() : getRandomDigit();
+        }
+    }
+
+    return `Aash${middlePart}VASH`;
+};
+
 module.exports.createProfile = async (req, res) => {
     try {
         
