@@ -66,8 +66,9 @@ module.exports.acceptContract = async () =>{
         }
 
 
-        const updateContract = Contract.updateMany({isAcceptedTerms: isAccepted })
-
+        const updateContract = Contract.findOneAndUpdate({sharingcode : contractId},{isAcceptedTerms: isAccepted },{new:true})
+        await updateContract.save()
+        
         return res.status(200).json({
             message : "Contract Accepted",
             data : updateContract
