@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const authRouter = require('./routes/auth.routes.js')
@@ -9,9 +10,9 @@ const pdfRouter = require('./routes/pdf.routes.js')
 
 
 
-require('dotenv').config()
 const app = express()
-const MongoUrl = 'mongodb+srv://aashwasan445:2FXuldBckjw2mOTn@aashwasan.r9ia2.mongodb.net/?retryWrites=true&w=majority&appName=aashwasan';
+const MongoUrl = process.env.MONGO_URL
+
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}));

@@ -1,3 +1,4 @@
+// require('dotenv').config()
 const { Router } = require("express");
 const PDFDocument = require('pdfkit');
 const path = require('path');
@@ -7,7 +8,7 @@ const express = require('express')
 const { google } = require('googleapis')
 const Groq = require("groq-sdk")
 
-const groq = new Groq({ apiKey: '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' });
+const groq = new Groq({ apiKey: process.env.GROQ_API });
 
 
 async function getGroqChatCompletion(mess) {
@@ -89,11 +90,11 @@ Date: ___________________         Date: ___________________         Date: ______
       return response;
 }
 
-const CLIENT_ID = '811538287917-9me3ni2t2b8nuk87ab3mjbt88nh4k06u.apps.googleusercontent.com';
-const CLIENT_SECRET = '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';
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URL = 'https://developers.google.com/oauthplayground';
 
-const REFRESH_TOKEN = '1//04izepTXW3AUdCgYIARAAGAQSNwF-L9Iro9u-r_NbsOUWBBKeB_1XAsLPAwx7e9oZpRPmhFSzyjDYD4SRIDojwBAbYLNX56DoRik';
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
 
 const oauth2Client = new google.auth.OAuth2(
@@ -140,10 +141,6 @@ const uploadflies = async (fileName,filepath)=>{
         console.log(err.message)
     }
 }
-
-const getDownloadLink = (fileId) => {
-    return `https://drive.google.com/uc?export=download&id=${fileId}`;
-};
 
 router.get('/generate-pdf',async (req, res) => {
     const agreementDetails = {
